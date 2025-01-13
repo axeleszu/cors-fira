@@ -20,6 +20,11 @@ app.get('/', async (req, res) => {
         return;
     }
 
+    if (url.indexOf('https://www.fira.gob.mx/Nd/xml/podcast.xml') > -1) {
+        url = "https://anchor.fm/s/ffebb324/podcast/rss";
+    }
+
+
     try {
         const response = await axios.get(url, {
             headers: {
