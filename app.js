@@ -9,7 +9,7 @@ app.use(cors());
 app.get('/', async (req, res) => {
     let url = req.query.url;
     if (!url) {
-        res.status(400).send('URL no válida');
+        res.status(400).send('URL no válida ' + url);
         return;
     }
     if (url.indexOf('https://www.fira.gob.mx/Nd/xml/podcast.xml') > -1) {
