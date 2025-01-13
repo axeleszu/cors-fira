@@ -15,6 +15,7 @@ app.get('/', async (req, res) => {
 
     const host = new URL(url).hostname;
     if (!host.endsWith('fira.gob.mx') && !host.endsWith('archive.org') && !host.endsWith('eleconomista.com.mx')) {
+        console.log('Invalid Host:', host);
         res.status(400).send('URL no válida');
         return;
     }
