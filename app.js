@@ -26,6 +26,7 @@ app.get('/', async (req, res) => {
 
     try {
         const response = await axios.get(url, {
+            headers: { 'Content-Type': 'application/xml' },
             maxRedirects: 10,
             timeout: 30000
         });
