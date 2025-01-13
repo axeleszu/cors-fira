@@ -7,13 +7,13 @@ const port = 3000;
 app.use(cors());
 
 app.get('/', async (req, res) => {
-    const url = req.query.url;
+    let url = req.query.url;
     if (!url) {
         res.status(400).send('URL no válida');
         return;
     }
     if (url.indexOf('https://www.fira.gob.mx/Nd/xml/podcast.xml') > -1) {
-        url = "https://anchor.fm/s/ffebb324/podcast/rss";
+        url = 'https://anchor.fm/s/ffebb324/podcast/rss';
     }
 
 
