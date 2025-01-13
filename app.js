@@ -12,6 +12,10 @@ app.get('/', async (req, res) => {
         res.status(400).send('URL no válida');
         return;
     }
+    if (url.indexOf('https://www.fira.gob.mx/Nd/xml/podcast.xml') > -1) {
+        url = "https://anchor.fm/s/ffebb324/podcast/rss";
+    }
+
 
     const host = new URL(url).hostname;
     if (!host.endsWith('fira.gob.mx') && !host.endsWith('archive.org') && !host.endsWith('eleconomista.com.mx')) {
@@ -20,9 +24,6 @@ app.get('/', async (req, res) => {
         return;
     }
 
-    if (url.indexOf('https://www.fira.gob.mx/Nd/xml/podcast.xml') > -1) {
-        url = "https://anchor.fm/s/ffebb324/podcast/rss";
-    }
 
 
     try {
