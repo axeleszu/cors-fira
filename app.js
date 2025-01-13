@@ -18,13 +18,11 @@ app.get('/', async (req, res) => {
 
 
     const host = new URL(url).hostname;
-    if (!host.endsWith('fira.gob.mx') && !host.endsWith('archive.org') && !host.endsWith('eleconomista.com.mx')) {
+    if (!host.endsWith('fira.gob.mx') && !host.endsWith('archive.org') && !host.endsWith('eleconomista.com.mx') && !host.endsWith('anchor.fm')) {
         console.log('Invalid Host:', host);
-        res.status(400).send('URL no válida');
+        res.status(400).send('URL no válida ' + url);
         return;
     }
-
-
 
     try {
         const response = await axios.get(url, {
