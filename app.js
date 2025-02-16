@@ -20,6 +20,9 @@ app.get('/', async (req, res) => {
         return;
     }
 
+    t = new Date().getMilliseconds();
+    url += (url.includes('?') ? '&' : '?') + 't=' + t;
+
     try {
         const response = await axios.get(url, {
             headers: {
