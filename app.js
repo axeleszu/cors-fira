@@ -25,13 +25,16 @@ app.get('/', async (req, res) => {
 
     try {
         const response = await axios.get(url, {
+            responseType: 'arraybuffer',
             headers: {
-                'Content-Type': 'application/xml',
                 'User-Agent': 'Mozilla/5.0 (compatible; Node.js proxy)'
             },
             maxRedirects: 10,
             timeout: 30000
         });
+        if (response.headers['content-type']) {
+            res.setHeader('Content-Type', response.headers['content-type']);
+        }
         res.send(response.data);
     } catch (error) {
         res.status(500).send('Error: ' + error);
