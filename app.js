@@ -1,9 +1,14 @@
 const express = require('express');
 const axios = require('axios');
 const cors = require('cors');
+const compression = require('compression');
+const NodeCache = require('node-cache');
 const app = express();
 const port = 3000;
 
+const myCache = new NodeCache({ stdTTL: 3600, checkperiod: 120 });
+
+app.use(compression());
 app.use(cors());
 
 app.get('/', async (req, res) => {
@@ -20,6 +25,18 @@ app.get('/', async (req, res) => {
         return;
     }
 
+    const cacheKey = url;
+    const cachedData = myCache.get(cacheKey);
+
+    if (cachedData) {
+        console.log('Sirviendo desde caché:', url);
+
+        if (cachedData.contentType) {
+            res.setHeader('Content-Type', cachedData.contentType);
+        }
+        return res.send(cachedData.buffer);
+    }
+
     t = new Date().getMilliseconds();
     url += (url.includes('?') ? '&' : '?') + 't=' + t;
 
@@ -32,9 +49,17 @@ app.get('/', async (req, res) => {
             maxRedirects: 10,
             timeout: 30000
         });
+
+        // Guardar en caché
+        myCache.set(cacheKey, {
+            buffer: response.data,
+            contentType: contentType
+        });
+
         if (response.headers['content-type']) {
             res.setHeader('Content-Type', response.headers['content-type']);
         }
+
         res.send(response.data);
     } catch (error) {
         res.status(500).send('Error: ' + error);
